@@ -35,13 +35,19 @@ export default defineType({
       title: 'Biography'
     },
     {
+        name: "createdBy",
+        title: "Created By",
+        type: "string"
+      },
+      
+    {
       name: 'interests',
       type: 'array',
       title: 'Interests',
       of: [{ type: 'string' }]
     },
     {
-        name: 'log',
+        name: 'logg',
         title: 'Arbeidslogg',
         type: 'array',
         of: [

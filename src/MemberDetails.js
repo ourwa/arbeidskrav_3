@@ -18,7 +18,7 @@ const MemberDetails = () => {
           },
           bio,
           interests,
-          log[]{
+          logg[]{
             date,
             task,
             hours
@@ -56,7 +56,7 @@ const MemberDetails = () => {
         </div>
       )}
 
-      {member.log?.length > 0 && (
+      {member.logg?.length > 0 && (
         <div>
           <h3>Arbeidslogg</h3>
           <table>
@@ -68,7 +68,7 @@ const MemberDetails = () => {
               </tr>
             </thead>
             <tbody>
-              {member.log.map((entry, index) => (
+              {member.logg.map((entry, index) => (
                 <tr key={index}>
                   <td>{new Date(entry.date).toLocaleDateString("no-NO")}</td>
                   <td>{entry.task}</td>
