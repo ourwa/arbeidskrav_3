@@ -41,18 +41,20 @@ export default defineType({
       of: [{ type: 'string' }]
     },
     {
-      name: 'logg',
-      type: 'array',
-      title: 'Arbeidslogg',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'dato', type: 'datetime', title: 'Dato' },
-            { name: 'oppgave', type: 'string', title: 'Oppgave' }
-          ]
-        }
-      ]
-    }
+        name: 'log',
+        title: 'Arbeidslogg',
+        type: 'array',
+        of: [
+          {
+            type: 'object',
+            fields: [
+              { name: 'date', type: 'datetime', title: 'Dato' },
+              { name: 'task', type: 'string', title: 'Oppgave' },
+              { name: 'hours', type: 'string', title: 'Timer' },
+            ],
+          },
+        ],
+      }
+      
   ]
 })

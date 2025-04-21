@@ -1,74 +1,86 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import client from "./sanityClient";
+import sanityClient from "./sanityClient";
+import './App.css';
 
-export default function MemberDetails() {
+const MemberDetails = () => {
   const { slug } = useParams();
   const [member, setMember] = useState(null);
 
   useEffect(() => {
-    client
+    sanityClient
       .fetch(
         `*[_type == "member" && slug.current == $slug][0]{
           name,
           email,
-          image {
-            asset-> {
-              url
-            }
+          image{
+            asset->{url}
           },
           bio,
           interests,
-          logg[]{
-            dato,
-            tekst,
-            timer
+          log[]{
+            date,
+            task,
+            hours
           }
         }`,
         { slug }
       )
-      .then(setMember)
+      .then((data) => setMember(data))
       .catch(console.error);
   }, [slug]);
 
   if (!member) return <div>Loading...</div>;
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div className="member-details-container">
       <h1>{member.name}</h1>
-      <img
-        src={member.image?.asset.url}
-        alt={member.name}
-        style={{ width: "300px", borderRadius: "8px" }}
-      />
+      {member.image && (
+        <img
+          src={member.image.asset.url}
+          alt={member.name}
+          className="profile-img"
+        />
+      )}
       <p>{member.email}</p>
-      <p><strong>Bio:</strong> {member.bio}</p>
-      <h3>Interesser</h3>
-      <ul>
-        {member.interests?.map((item, i) => (
-          <li key={i}>{item}</li>
-        ))}
-      </ul>
+      <p className="member-bio"><strong>Bio:</strong> {member.bio}</p>
 
-      <h3>Arbeidslogg</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Dato</th>
-            <th>Oppgave</th>
-            <th>Timer</th>
-          </tr>
-        </thead>
-        <tbody>
-          {member.logg?.map((entry, i) => (
-            <tr key={i}>
-              <td>{entry.dato}</td>
-              <td>{entry.tekst}</td>
-              <td>{entry.timer} timer</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {member.interests?.length > 0 && (
+        <div className="interests-section">
+          <h3>Interesser</h3>
+          <ul>
+            {member.interests.map((interest, index) => (
+              <li key={index}>{interest}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {member.log?.length > 0 && (
+        <div>
+          <h3>Arbeidslogg</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Dato</th>
+                <th>Oppgave</th>
+                <th>Timer</th>
+              </tr>
+            </thead>
+            <tbody>
+              {member.log.map((entry, index) => (
+                <tr key={index}>
+                  <td>{new Date(entry.date).toLocaleDateString("no-NO")}</td>
+                  <td>{entry.task}</td>
+                  <td>{entry.hours}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
-}
+};
+
+export default MemberDetails;

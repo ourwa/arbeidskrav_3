@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import client from "./sanityClient";
 import { Link } from "react-router-dom";
-import "./App.css"; // أو Members.css حسب ملف التنسيق
+import "./App.css";
 
-export default function Members() {
+function Members() {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
@@ -42,3 +42,5 @@ export default function Members() {
     </div>
   );
 }
+
+export default Members;
