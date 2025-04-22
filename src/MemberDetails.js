@@ -13,16 +13,10 @@ const MemberDetails = () => {
         `*[_type == "member" && slug.current == $slug][0]{
           name,
           email,
-          image{
-            asset->{url}
-          },
+          image{ asset->{url} },
           bio,
           interests,
-          logg[]{
-            date,
-            task,
-            hours
-          }
+          logg[]{ task, hours, _key, _createdAt }
         }`,
         { slug }
       )
@@ -70,7 +64,7 @@ const MemberDetails = () => {
             <tbody>
               {member.logg.map((entry, index) => (
                 <tr key={index}>
-                  <td>{new Date(entry.date).toLocaleDateString("no-NO")}</td>
+                  <td>{new Date(entry._createdAt).toLocaleDateString("no-NO")}</td>
                   <td>{entry.task}</td>
                   <td>{entry.hours}</td>
                 </tr>
